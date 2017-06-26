@@ -4,15 +4,12 @@ from itertools import cycle
 
 import json
 import time
-
+import os
 
 class Gather(object):
     def __init__(self):
-        with open("secrets.json") as secrets_file:
-            self.secrets = json.load(secrets_file)
-            secrets_file.close()
-        self.bittrex = Bittrex(self.secrets['key'], self.secrets['secret'])
-        self.client = MongoClient('192.168.2.8', 27017)
+        self.bittrex = Bittrex(os.environ['KEY'], os.environ['SECRET'])
+        self.client = MongoClient('mongo', 27017)
 
     def gather(self, market):
         return self.bittrex.get_market_history(market, 50)['result']
