@@ -17,11 +17,17 @@ class Gather(object):
         return self.bittrex.get_market_history(market, 50)['result']
 
     def insert_documents(self, documents, collection):
+	sales = []
+	buys  = []
         for mov in documents:
             if mov['OrderType'] == "SELL":
-                self.client[collection].sales.update({'id': mov['Id']}, mov, True)
+                #self.client[collection].sales.find({'id': mov['Id']}, mov, True)
+		sales.append(mov)
             else:
-                self.client[collection].buys.update({'id': mov['Id']}, mov, True)
+                #self.client[collection].buys.update({'id': mov['Id']}, mov, True)
+		buys.append(mov)
+	self.client[collection].sales.insert_many(sales)
+	self.client[collection].buys.insert_many(buys)
 
     def main(self):
         market_strs = [
