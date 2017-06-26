@@ -5,5 +5,5 @@ services:
     environment:
       - "SECRET=<secret>"
       - "KEY=<key>"
-    links:
+    external_links:
       - mongo

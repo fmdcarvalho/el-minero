@@ -8,8 +8,10 @@ import os
 
 class Gather(object):
     def __init__(self):
+	print os.environ['KEY']
+	print os.environ['SECRET']
         self.bittrex = Bittrex(os.environ['KEY'], os.environ['SECRET'])
-        self.client = MongoClient('mongo', 27017)
+        self.client = MongoClient('mongodb://user:12341234@mongo:27017')
 
     def gather(self, market):
         return self.bittrex.get_market_history(market, 50)['result']
@@ -44,8 +46,8 @@ class Gather(object):
                 delay = time.time() - start
                 print delay
 
-            except Exception:
-                pass
+            except Exception as e:
+                print e
 
 
 if __name__ == '__main__':
